@@ -1,16 +1,16 @@
 namespace Demo.Adaptor
 {
     /// <summary>
-    /// ユニット生成情報のDTO。
+    /// ユニット生成（キャラクター単位）の情報のDTO。
     /// </summary>
     public readonly struct UnitSpawnDTO
     {
-        public UnitSpawnDTO(string[] characterIDs)
+        public UnitSpawnDTO(string characterID)
         {
-            CharacterIDs = characterIDs;
+            CharacterID = characterID;
         }
 
-        /// <summary> キャラクターIDの配列 </summary>
-        public readonly string[] CharacterIDs;
+        /// <summary> キャラクターID </summary>
+        public readonly string CharacterID;
     }
 }
