@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace Demo.Domain
 {
-    public readonly ref struct BattleStepContext
+    public readonly ref struct AttackStepContext
     {
-        public BattleStepContext(CharacterEntity attacker, CharacterEntity defender)
+        public AttackStepContext(CharacterEntity attacker, CharacterEntity defender)
         {
             _attacker = attacker;
             _defender = defender;
