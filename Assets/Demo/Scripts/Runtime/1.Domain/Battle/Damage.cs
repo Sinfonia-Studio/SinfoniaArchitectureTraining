@@ -2,15 +2,8 @@ namespace Demo.Domain
 {
     public readonly struct Damage
     {
-        public Damage(float value)
-        {
-            _value = value;
-        }
-
-        public Damage(AttackPower attackPower)
-        {
-            _value = attackPower.Value;
-        }
+        public Damage(float value) => _value = value;
+        public Damage(AttackPower attackPower) => _value = attackPower.Value;
 
         public float Value => _value;
 
