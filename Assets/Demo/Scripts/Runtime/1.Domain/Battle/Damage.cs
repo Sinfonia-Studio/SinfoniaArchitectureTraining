@@ -9,6 +9,11 @@ namespace Demo.Domain
             _value = value;
         }
 
+        public Damage(AttackPower attackPower)
+        {
+            _value = attackPower.Value;
+        }
+
         public float Value => _value;
 
         public static Health operator -(Health health, Damage damage)
