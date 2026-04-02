@@ -1,4 +1,5 @@
 using Demo.Domain;
+using Demo.Application;
 
 namespace Demo.Adaptor
 {
@@ -7,9 +8,9 @@ namespace Demo.Adaptor
     /// </summary>
     public class UnitCardController
     {
-        public UnitCardController(Application.UnitFactory unitSpawner)
+        public UnitCardController(UnitFactory unitFactory)
         {
-            _unitSpawner = unitSpawner;
+            _unitFactory = unitFactory;
         }
 
         /// <summary>
@@ -18,9 +19,9 @@ namespace Demo.Adaptor
         /// <param name="unitID">生成するユニットのID</param>
         public void SpawnUnit(string unitID)
         {
-            _unitSpawner.Spawn(new(unitID));
+            _unitFactory.Spawn(new(unitID));
         }
 
-        private readonly Application.UnitFactory _unitSpawner;
+        private readonly UnitFactory _unitFactory;
     }
 }
