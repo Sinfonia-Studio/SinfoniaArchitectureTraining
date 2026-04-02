@@ -1,5 +1,4 @@
 using Demo.Utility;
-using UnityEngine;
 
 namespace Demo.Domain
 {
@@ -9,6 +8,19 @@ namespace Demo.Domain
         {
             _health = new(health);
         }
+
+        public void TakeDamage(Health damage)
+        {
+            Health newHealth = _health.CurrentHealth - damage;
+            _health.ChangeHealth(newHealth);
+        }
+
+        public void Heal(Health heal)
+        {
+            Health newHealth = _health.CurrentHealth + heal;
+            _health.ChangeHealth(newHealth);
+        }
+
 
         private readonly HealthEntity _health;
     }
