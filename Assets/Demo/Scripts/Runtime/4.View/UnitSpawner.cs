@@ -1,9 +1,16 @@
+using Demo.Adaptor;
 using UnityEngine;
 
 namespace Demo.View
 {
+    /// <summary>
+    /// ユニット生成を表示するスポナーView。
+    /// </summary>
     public class UnitSpawner : MonoBehaviour
     {
+        /// <summary> キャラクターViewが生成された際のイベント </summary>
+        public event System.Action<CharacterView, string> OnCharacterViewSpawned;
+
         public void Bind(CharacterSpawner spawner, UnitSpawnSignal signal)
         {
             _spawner = spawner;
@@ -11,7 +18,7 @@ namespace Demo.View
             RegisterSignal(signal);
         }
 
-        [SerializeField]
+        [SerializeField, Tooltip("ユニット生成時の設定")]
         private UnitSpawnerConfig _config;
 
         private CharacterSpawner _spawner;
@@ -34,19 +41,20 @@ namespace Demo.View
             signal.OnSpawn -= SpawnUnit;
         }
 
-        private void SpawnUnit(string[] ids)
+        private void SpawnUnit(UnitSpawnDTO dto)
         {
             if (_spawner == null) { return; }
 
             float r = _config.SpawnRadius;
 
-            foreach (string id in ids)
+            foreach (string id in dto.CharacterIDs)
             {
                 float x = Random.Range(-r, r);
                 float z = Random.Range(-r, r);
                 Vector3 pos = transform.position + new Vector3(x, 0, z);
 
                 CharacterView view = _spawner.SpawnCharacter(id, pos);
+                OnCharacterViewSpawned?.Invoke(view, id);
             }
         }
 
