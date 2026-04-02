@@ -7,7 +7,7 @@ namespace Demo.View
 {
     public class CharacterSpawner
     {
-        public CharacterSpawner(CharacterDataBase characterDataBase)
+        public CharacterSpawner(CharacterViewDataBase characterDataBase)
         {
             _characterDataBase = characterDataBase;
         }
@@ -19,6 +19,6 @@ namespace Demo.View
             return chara;
         }
 
-        private CharacterDataBase _characterDataBase;
+        private CharacterViewDataBase _characterDataBase;
     }
 }
