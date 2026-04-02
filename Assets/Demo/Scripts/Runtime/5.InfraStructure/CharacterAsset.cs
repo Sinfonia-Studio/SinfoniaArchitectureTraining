@@ -5,14 +5,17 @@ using UnityEngine;
 namespace Demo.InfraStructure
 {
     [CreateAssetMenu(fileName = nameof(CharacterAsset),
-        menuName = PathConst.CREATE_ASSET_MENU_PATH + nameof(CharacterAsset), 
+        menuName = PathConst.CREATE_ASSET_MENU_PATH + nameof(CharacterAsset),
         order = 0)]
     public class CharacterAsset : ScriptableObject
     {
+        public CharacterID Id => new(_id);
+
         public CharacterEntity Get()
         {
             CharacterEntity character = new
                 (
+                    id: new(_id),
                     health: new(_health),
                     power: new(_attack),
                     criticalChance: new(_criticalChance),
@@ -21,6 +24,8 @@ namespace Demo.InfraStructure
             return character;
         }
 
+        [SerializeField]
+        private string _id = string.Empty;
         [SerializeField, Min(0)]
         private float _health = 100;
         [SerializeField, Min(0)]
