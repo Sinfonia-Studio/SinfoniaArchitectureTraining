@@ -1,4 +1,3 @@
-using Demo.Adaptor;
 using UnityEngine;
 using CharacterController = Demo.Adaptor.CharacterController;
 

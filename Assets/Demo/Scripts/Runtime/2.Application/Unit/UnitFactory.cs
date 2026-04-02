@@ -4,7 +4,7 @@ using System;
 namespace Demo.Application
 {
     /// <summary>
-    /// ユニット生成を実行するスポナー。
+    /// ユニット生成を実行するファクトリ。
     /// </summary>
     public class UnitFactory
     {
@@ -15,7 +15,7 @@ namespace Demo.Application
         }
 
         /// <summary> キャラクターが生成された際に発火するイベント </summary>
-        public event Action<CharacterEntity[]> OnCharacterSpawned;
+        public event Action<CharacterEntity> OnCharacterSpawned;
 
         /// <summary>
         /// ユニットを生成する。
@@ -25,15 +25,11 @@ namespace Demo.Application
         {
             Unit unit = _unitRepository.GetUnit(unitID);
 
-            CharacterEntity[] entities = new CharacterEntity[unit.IDs.Count];
-            for (int i = 0; i < unit.IDs.Count; i++)
+            foreach (CharacterID charaID in unit.IDs)
             {
-                CharacterID charaID = unit.IDs[i];
                 CharacterEntity entity = _characterRepository.GetCharacter(charaID);
-                entities[i] = entity;
+                OnCharacterSpawned?.Invoke(entity);
             }
-
-            OnCharacterSpawned?.Invoke(entities);
         }
 
         private readonly IUnitRepository _unitRepository;
