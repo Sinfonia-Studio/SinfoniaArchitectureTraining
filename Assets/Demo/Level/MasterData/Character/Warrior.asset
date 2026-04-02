@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60e260139e185f84880a7347221ca7c6, type: 3}
-  m_Name: CharacterAsset
+  m_Name: Warrior
   m_EditorClassIdentifier: Demo-InfraStructure::Demo.InfraStructure.CharacterAsset
+  _id: Warrior
   _health: 100
   _attack: 10
   _criticalChance: 0.5
