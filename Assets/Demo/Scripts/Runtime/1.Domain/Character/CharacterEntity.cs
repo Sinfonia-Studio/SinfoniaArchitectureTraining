@@ -2,17 +2,20 @@ namespace Demo.Domain
 {
     public class CharacterEntity : IAttacker, IDefender
     {
-        public CharacterEntity(Health health, 
+        public CharacterEntity(CharacterID id,
+            Health health, 
             AttackPower power, 
             CriticalChance criticalChance,
             CriticalDamage criticalDamage)
         {
+            _characterID = id;
             _healthEntity = new(health);
             _attackPower = power;
             _criticalChance = criticalChance;
             _criticalDamage = criticalDamage;
         }
 
+        public CharacterID CharacterID => _characterID;
         public Health CurrentHealth => _healthEntity.CurrentHealth;
         public Health MaxHealth => _healthEntity.MaxHealth;
         public AttackPower AttackPower => _attackPower;
@@ -32,6 +35,7 @@ namespace Demo.Domain
             _healthEntity.ChangeHealth(newHealth);
         }
 
+        private readonly CharacterID _characterID;
         private readonly HealthEntity _healthEntity;
         private readonly AttackPower _attackPower;
         private readonly CriticalChance _criticalChance;
