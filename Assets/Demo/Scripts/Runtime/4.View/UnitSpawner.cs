@@ -1,66 +1,46 @@
 using Demo.Adaptor;
 using UnityEngine;
+using System;
 
 namespace Demo.View
 {
     /// <summary>
     /// ユニット生成を表示するスポナーView。
+    /// Adaptor層のIUnitSpawnerを実装し、Viewの実体を生成する。
     /// </summary>
-    public class UnitSpawner : MonoBehaviour
+    public class UnitSpawner : MonoBehaviour, IUnitSpawner
     {
-        /// <summary> キャラクターViewが生成された際のイベント </summary>
-        public event System.Action<CharacterView, string> OnCharacterViewSpawned;
-
-        public void Bind(CharacterSpawner spawner, UnitSpawnSignal signal)
+        public void Bind(CharacterSpawner spawner)
         {
             _spawner = spawner;
-            _signal = signal;
-            RegisterSignal(signal);
         }
 
         [SerializeField, Tooltip("ユニット生成時の設定")]
         private UnitSpawnerConfig _config;
 
         private CharacterSpawner _spawner;
-        private UnitSpawnSignal _signal;
 
-        private void OnDestroy()
-        {
-            UnregisterSignal(_signal);
-        }
-
-        private void RegisterSignal(UnitSpawnSignal signal)
-        {
-            if (_signal == null) { return; }
-            signal.OnSpawn += SpawnUnit;
-        }
-
-        private void UnregisterSignal(UnitSpawnSignal signal)
-        {
-            if (_signal == null) { return; }
-            signal.OnSpawn -= SpawnUnit;
-        }
-
-        private void SpawnUnit(UnitSpawnDTO dto)
+        /// <summary>
+        /// キャラクターViewを生成し、コールバックに渡す。
+        /// </summary>
+        /// <param name="characterID">キャラクターID</param>
+        /// <param name="onCreated">生成されたViewを渡すコールバック</param>
+        public void SpawnCharacter(string characterID, Action<object> onCreated)
         {
             if (_spawner == null) { return; }
 
             float r = _config.SpawnRadius;
+            float x = UnityEngine.Random.Range(-r, r);
+            float z = UnityEngine.Random.Range(-r, r);
+            Vector3 pos = transform.position + new Vector3(x, 0, z);
 
-            foreach (string id in dto.CharacterIDs)
-            {
-                float x = Random.Range(-r, r);
-                float z = Random.Range(-r, r);
-                Vector3 pos = transform.position + new Vector3(x, 0, z);
-
-                CharacterView view = _spawner.SpawnCharacter(id, pos);
-                OnCharacterViewSpawned?.Invoke(view, id);
-            }
+            CharacterView view = _spawner.SpawnCharacter(characterID, pos);
+            onCreated?.Invoke(view);
         }
 
         private void OnValidate()
         {
-            Debug.Assert(_config != null, $"{nameof(UnitSpawnerConfig)} is null");
+            Debug.Assert(_config != null, $"{nameof(UnitSpawnerConfig)} is null", this);
         }
 
         private void OnDrawGizmos()
@@ -68,7 +48,7 @@ namespace Demo.View
             if (_config != null)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireCube(transform.position, Vector3.one * _config.SpawnRadius);
+                Gizmos.DrawWireSphere(transform.position, _config.SpawnRadius);
             }
         }
     }
