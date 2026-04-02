@@ -3,7 +3,7 @@ namespace Demo.Domain
     public class CharacterEntity : IAttacker, IDefender
     {
         public CharacterEntity(CharacterID id,
-            Health health, 
+            Health health,
             AttackPower power, 
             CriticalChance criticalChance,
             CriticalDamage criticalDamage)
