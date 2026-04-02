@@ -18,8 +18,19 @@ namespace Demo.Domain
             _defender = context._defender;
         }
 
+        public AttackStepContext(in AttackStepContext context)
+        {
+            _damage = context._damage;
+            _criticalCount = context._criticalCount;
+            _attacker = context._attacker;
+            _defender = context._defender;
+        }
+
         public Damage Damage => _damage;
         public int CriticalCount => _criticalCount;
+
+        public IAttacker Attacker => _attacker;
+        public IDefender Defender => _defender;
 
         private readonly Damage _damage;
         private readonly int _criticalCount;
