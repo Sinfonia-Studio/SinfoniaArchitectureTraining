@@ -1,0 +1,21 @@
+{
+    "name": "Demo-Composition",
+    "rootNamespace": "Demo.Composition",
+    "references": [
+        "GUID:7f437230b5db4aa408cad7af342e8aec",
+        "GUID:b18f19cc67cbb8148aa0741052f9828f",
+        "GUID:ea383188b6ac9944fbc0328df02b7135",
+        "GUID:4fa7a59773171dc498784e3e523ddd68",
+        "GUID:3b0834efd29af5649a3b0ee6b5d688a0",
+        "GUID:88d92cd0f2b0d2148a3636736020548b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

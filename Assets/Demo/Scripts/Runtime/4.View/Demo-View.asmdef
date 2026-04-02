@@ -1,0 +1,17 @@
+{
+    "name": "Demo-View",
+    "rootNamespace": "Demo.View",
+    "references": [
+        "GUID:7f437230b5db4aa408cad7af342e8aec",
+        "GUID:4fa7a59773171dc498784e3e523ddd68"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

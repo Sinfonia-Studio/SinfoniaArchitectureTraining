@@ -1,0 +1,18 @@
+{
+    "name": "Demo-Adaptor",
+    "rootNamespace": "Demo.Adaptor",
+    "references": [
+        "GUID:7f437230b5db4aa408cad7af342e8aec",
+        "GUID:b18f19cc67cbb8148aa0741052f9828f",
+        "GUID:ea383188b6ac9944fbc0328df02b7135"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
