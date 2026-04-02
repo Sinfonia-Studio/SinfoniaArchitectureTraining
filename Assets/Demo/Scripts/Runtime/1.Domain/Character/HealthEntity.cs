@@ -1,6 +1,6 @@
 using System;
 
-namespace Demo.Utility
+namespace Demo.Domain
 {
     public class HealthEntity
     {
@@ -11,6 +11,9 @@ namespace Demo.Utility
             _health = health;
             _maxHealth = health;
         }
+
+        public Health CurrentHealth => _health;
+        public Health MaxHealth => _maxHealth;
 
         public void ChangeHealth(Health delta)
         {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Demo.Utility
+namespace Demo.Domain
 {
     public readonly struct Health : IEquatable<Health>, IComparable<Health>
     {
@@ -18,8 +18,10 @@ namespace Demo.Utility
         public static bool operator !=(Health left, Health right) => left._value != right._value;
 
         public static Health operator +(Health left, Health right) => new(left._value + right._value);
+        public static Health operator -(Health left, Health right) => new(left._value - right._value);
 
         public override bool Equals(object obj) => obj is Health other && Equals(other);
+        public override int GetHashCode() => _value.GetHashCode();
 
         private readonly float _value;
     }
