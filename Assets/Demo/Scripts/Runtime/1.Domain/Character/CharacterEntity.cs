@@ -14,7 +14,7 @@ namespace Demo.Domain
         public Health MaxHealth => _healthEntity.MaxHealth;
         public AttackPower AttackPower => _attackPower;
 
-        public void TakeDamage(Health damage)
+        public void TakeDamage(Damage damage)
         {
             Health newHealth = _healthEntity.CurrentHealth - damage;
             _healthEntity.ChangeHealth(newHealth);
