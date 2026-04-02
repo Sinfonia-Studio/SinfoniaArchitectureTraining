@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Demo.Domain
 {
-    public class AttackSpec
+    public interface IAttackSpec
     {
-
+        public AttackPower AttackPower { get; }
     }
 }

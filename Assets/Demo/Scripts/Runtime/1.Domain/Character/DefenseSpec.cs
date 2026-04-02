@@ -1,8 +1,10 @@
-using UnityEngine;
+using Demo.Utility;
 
 namespace Demo.Domain
 {
-    public class DefenseSpec
+    public interface IDefenseSpec
     {
+        public Health CurrentHealth { get; }
+        public Health MaxHealth { get; }
     }
 }
