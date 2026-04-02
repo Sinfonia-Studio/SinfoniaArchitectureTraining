@@ -4,65 +4,57 @@ using Demo.Domain;
 using Demo.InfraStructure;
 using Demo.View;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Demo.Composition
 {
     /// <summary>
     /// ユニット生成に関する依存性注入と初期化を行うクラス。
+    /// ICharacterInitializer を実装し、生成されたエンティティとViewの橋渡しを行う。
     /// </summary>
-    public class UnitInitializer : MonoBehaviour
+    public class UnitInitializer : MonoBehaviour, ICharacterInitializer
     {
         [SerializeField, Tooltip("ユニットのリポジトリ")]
         private UnitRepository _unitRepository;
         [SerializeField, Tooltip("キャラクターのリポジトリ")]
-        private InfraStructure.CharacterRepository _characterRepository;
+        private CharacterRepository _characterRepository;
         [SerializeField, Tooltip("キャラクターViewのデータベース")]
         private CharacterViewDataBase _characterDataBase;
         [SerializeField, Tooltip("ユニットカードViewのリスト")]
         private UnitCardView[] _unitCardViews;
         [SerializeField]
-        private UnitSpawner _unitSpawner;
+        private UnitSpawner _unitSpawnerView;
 
         private void Awake()
         {
             // 1. レイヤー間のコンポーネント作成
-            UnitSpawnSignal signal = new();
             
-            UnitFactory unitSpawnerApp = new(_unitRepository, _characterRepository);
+            UnitFactory unitFactory = new(_unitRepository, _characterRepository);
             
-            UnitSpawnPresenter spawnPresenter = new(unitSpawnerApp, signal);
-            UnitCardController cardController = new(unitSpawnerApp);
+            // Presenter が IUnitSpawner (View層) と ICharacterInitializer (Composition層) を介して動作する
+            UnitSpawnPresenter spawnPresenter = new(unitFactory, _unitSpawnerView, this);
+            UnitCardController cardController = new(unitFactory);
 
             // 2. Viewのバインド
             CharacterSpawner charaSpawner = new(_characterDataBase);
-            _unitSpawner.Bind(charaSpawner, signal);
+            _unitSpawnerView.Bind(charaSpawner);
 
             foreach (var cardView in _unitCardViews)
             {
                 cardView.Bind(cardController);
             }
-
-            // 3. 生成されたキャラクターの初期化フロー
-            unitSpawnerApp.OnCharacterSpawned += (entities) =>
-            {
-                foreach (var entity in entities)
-                {
-                    _spawnedEntities.Enqueue(entity);
-                }
-            };
-
-            _unitSpawner.OnCharacterViewSpawned += (view, id) =>
-            {
-                if (_spawnedEntities.Count > 0)
-                {
-                    CharacterEntity entity = _spawnedEntities.Dequeue();
-                    CharacterInitializer.Initialize(entity, view);
-                }
-            };
         }
 
-        private readonly Queue<CharacterEntity> _spawnedEntities = new();
+        /// <summary>
+        /// ICharacterInitializerの実装。
+        /// 生成されたエンティティとViewを具体的な CharacterInitializer で初期化する。
+        /// </summary>
+        public void Initialize(CharacterEntity entity, object viewObject)
+        {
+            if (viewObject is CharacterView view)
+            {
+                CharacterInitializer.Initialize(entity, view);
+            }
+        }
     }
 }
