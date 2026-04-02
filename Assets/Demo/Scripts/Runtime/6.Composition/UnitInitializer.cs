@@ -10,9 +10,9 @@ namespace Demo.Composition
 {
     /// <summary>
     /// ユニット生成に関する依存性注入と初期化を行うクラス。
-    /// ICharacterInitializer を実装し、生成されたエンティティとViewの橋渡しを行う。
+    /// 状態を持たず、各レイヤーを接続する役割のみを持つ。
     /// </summary>
-    public class UnitInitializer : MonoBehaviour, ICharacterInitializer
+    public class UnitInitializer : MonoBehaviour
     {
         [SerializeField, Tooltip("ユニットのリポジトリ")]
         private UnitRepository _unitRepository;
@@ -22,22 +22,26 @@ namespace Demo.Composition
         private CharacterViewDataBase _characterDataBase;
         [SerializeField, Tooltip("ユニットカードViewのリスト")]
         private UnitCardView[] _unitCardViews;
-        [SerializeField]
-        private UnitSpawner _unitSpawnerView;
+        [SerializeField, Tooltip("プレイヤーのスポナー")]
+        private UnitSpawner _spawner;
+
+        // Presenter のライフサイクル管理のためフィールドで保持
+        private Demo.Adaptor.UnitSpawnPresenter _spawnPresenter;
 
         private void Awake()
         {
-            // 1. レイヤー間のコンポーネント作成
-            
+            // 1. 各レイヤーのコンポーネントを接続            
             UnitFactory unitFactory = new(_unitRepository, _characterRepository);
             
-            // Presenter が IUnitSpawner (View層) と ICharacterInitializer (Composition層) を介して動作する
-            UnitSpawnPresenter spawnPresenter = new(unitFactory, _unitSpawnerView, this);
+            // Adaptor層のファクトリとSignalを利用してPresenterを初期化
+            CharacterAdaptorFactory adaptorFactory = new();
+            _spawnPresenter = new(unitFactory, adaptorFactory, _spawner);
+            
             UnitCardController cardController = new(unitFactory);
 
-            // 2. Viewのバインド
+            // 2. Viewへのバインド（静的な紐付け）
             CharacterSpawner charaSpawner = new(_characterDataBase);
-            _unitSpawnerView.Bind(charaSpawner);
+            _spawner.Bind(charaSpawner);
 
             foreach (var cardView in _unitCardViews)
             {
@@ -45,16 +49,9 @@ namespace Demo.Composition
             }
         }
 
-        /// <summary>
-        /// ICharacterInitializerの実装。
-        /// 生成されたエンティティとViewを具体的な CharacterInitializer で初期化する。
-        /// </summary>
-        public void Initialize(CharacterEntity entity, object viewObject)
+        private void OnDestroy()
         {
-            if (viewObject is CharacterView view)
-            {
-                CharacterInitializer.Initialize(entity, view);
-            }
+            _spawnPresenter?.Dispose();
         }
     }
 }
