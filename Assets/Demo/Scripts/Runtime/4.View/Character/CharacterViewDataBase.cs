@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Demo.View
 {
-    [CreateAssetMenu(fileName = nameof(CharacterDataBase),
-        menuName = PathConst.CREATE_ASSET_MENU_PATH + nameof(CharacterDataBase),
+    [CreateAssetMenu(fileName = nameof(CharacterViewDataBase),
+        menuName = PathConst.CREATE_ASSET_MENU_PATH + nameof(CharacterViewDataBase),
         order = 0)]
-    public class CharacterDataBase : ScriptableObject
+    public class CharacterViewDataBase : ScriptableObject
     {
         public bool TryGetCharacterView(string id, out CharacterView view)
         {
