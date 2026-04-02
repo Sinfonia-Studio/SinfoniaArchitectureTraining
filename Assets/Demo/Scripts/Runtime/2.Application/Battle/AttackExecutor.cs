@@ -1,9 +1,8 @@
 using Demo.Domain;
-using UnityEngine;
 
 namespace Demo.Application
 {
-    public class AttackExecutor
+    public static class AttackExecutor
     {
         public static void Execute(AttackPipeline pipeline, CharacterEntity attacker, CharacterEntity defender)
         {

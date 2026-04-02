@@ -1,6 +1,6 @@
 using System;
 
-namespace Demo.Utility
+namespace Demo.Domain
 {
     public readonly struct Health : IEquatable<Health>, IComparable<Health>
     {

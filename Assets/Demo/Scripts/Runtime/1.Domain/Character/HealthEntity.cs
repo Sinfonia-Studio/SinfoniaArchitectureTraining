@@ -1,6 +1,6 @@
 using System;
 
-namespace Demo.Utility
+namespace Demo.Domain
 {
     public class HealthEntity
     {

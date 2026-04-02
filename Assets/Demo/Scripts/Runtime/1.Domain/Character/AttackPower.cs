@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Demo.Domain
 {
     public readonly struct AttackPower

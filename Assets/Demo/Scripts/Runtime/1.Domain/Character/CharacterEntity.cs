@@ -1,5 +1,3 @@
-using Demo.Utility;
-
 namespace Demo.Domain
 {
     public class CharacterEntity : IAttackSpec, IDefenseSpec
