@@ -9,6 +9,8 @@ namespace Demo.Domain
             _health = new(health);
         }
 
+        public HealthEntity HealthEntity => _health;
+
         public void TakeDamage(Health damage)
         {
             Health newHealth = _health.CurrentHealth - damage;
@@ -21,7 +23,8 @@ namespace Demo.Domain
             _health.ChangeHealth(newHealth);
         }
 
-
+        private readonly AttackSpec _attackSpec;
+        private readonly DefenseSpec _defenseSpec;
         private readonly HealthEntity _health;
     }
 }
