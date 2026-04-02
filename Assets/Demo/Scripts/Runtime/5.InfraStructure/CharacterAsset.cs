@@ -21,13 +21,13 @@ namespace Demo.InfraStructure
             return character;
         }
 
-        [SerializeField]
-        private float _health;
-        [SerializeField]
-        private float _attack;
-        [SerializeField]
-        private float _criticalChance;
-        [SerializeField]
-        private float _criticalDamage;
+        [SerializeField, Min(0)]
+        private float _health = 100;
+        [SerializeField, Min(0)]
+        private float _attack = 10;
+        [SerializeField, Range(0, 1)]
+        private float _criticalChance = 0.5f;
+        [SerializeField, Min(1)]
+        private float _criticalDamage = 2;
     }
 }
