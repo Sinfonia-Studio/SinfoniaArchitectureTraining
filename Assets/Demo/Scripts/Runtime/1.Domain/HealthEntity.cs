@@ -12,6 +12,9 @@ namespace Demo.Utility
             _maxHealth = health;
         }
 
+        public Health CurrentHealth => _health;
+        public Health MaxHealth => _maxHealth;
+
         public void ChangeHealth(Health delta)
         {
             var newHealth = _health + delta;
