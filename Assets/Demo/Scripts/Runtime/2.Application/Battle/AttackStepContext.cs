@@ -2,7 +2,7 @@ namespace Demo.Domain
 {
     public readonly ref struct AttackStepContext
     {
-        public AttackStepContext(IAttackSpec attacker, IDefenseSpec defender)
+        public AttackStepContext(IAttacker attacker, IDefender defender)
         {
             _damage = new(attacker.AttackPower);
             _criticalCount = 0;
@@ -24,7 +24,7 @@ namespace Demo.Domain
         private readonly Damage _damage;
         private readonly int _criticalCount;
 
-        private readonly IAttackSpec _attacker;
-        private readonly IDefenseSpec _defender;
+        private readonly IAttacker _attacker;
+        private readonly IDefender _defender;
     }
 }

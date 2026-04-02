@@ -1,6 +1,6 @@
 namespace Demo.Domain
 {
-    public class CharacterEntity : IAttackSpec, IDefenseSpec
+    public class CharacterEntity : IAttacker, IDefender
     {
         public CharacterEntity(Health health, AttackPower power)
         {

@@ -1,6 +1,6 @@
 namespace Demo.Domain
 {
-    public interface IDefenseSpec
+    public interface IDefender
     {
         public Health CurrentHealth { get; }
         public Health MaxHealth { get; }

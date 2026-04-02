@@ -1,6 +1,6 @@
 namespace Demo.Domain
 {
-    public interface IAttackSpec
+    public interface IAttacker
     {
         public AttackPower AttackPower { get; }
     }
