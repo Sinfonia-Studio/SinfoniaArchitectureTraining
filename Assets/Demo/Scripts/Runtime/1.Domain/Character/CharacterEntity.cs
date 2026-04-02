@@ -2,29 +2,31 @@ using Demo.Utility;
 
 namespace Demo.Domain
 {
-    public class CharacterEntity
+    public class CharacterEntity : IAttackSpec, IDefenseSpec
     {
-        public CharacterEntity(Health health)
+        public CharacterEntity(Health health, AttackPower power)
         {
-            _health = new(health);
+            _healthEntity = new(health);
+            _attackPower = power;
         }
 
-        public HealthEntity HealthEntity => _health;
+        public Health CurrentHealth => _healthEntity.CurrentHealth;
+        public Health MaxHealth => _healthEntity.MaxHealth;
+        public AttackPower AttackPower => _attackPower;
 
         public void TakeDamage(Health damage)
         {
-            Health newHealth = _health.CurrentHealth - damage;
-            _health.ChangeHealth(newHealth);
+            Health newHealth = _healthEntity.CurrentHealth - damage;
+            _healthEntity.ChangeHealth(newHealth);
         }
 
         public void Heal(Health heal)
         {
-            Health newHealth = _health.CurrentHealth + heal;
-            _health.ChangeHealth(newHealth);
+            Health newHealth = _healthEntity.CurrentHealth + heal;
+            _healthEntity.ChangeHealth(newHealth);
         }
 
-        private readonly AttackSpec _attackSpec;
-        private readonly DefenseSpec _defenseSpec;
-        private readonly HealthEntity _health;
+        private readonly HealthEntity _healthEntity;
+        private readonly AttackPower _attackPower;
     }
 }
