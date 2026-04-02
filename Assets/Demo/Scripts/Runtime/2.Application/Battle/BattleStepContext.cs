@@ -4,13 +4,13 @@ namespace Demo.Domain
 {
     public readonly ref struct BattleStepContext
     {
-        public BattleStepContext(Character attacker, Character defender)
+        public BattleStepContext(CharacterEntity attacker, CharacterEntity defender)
         {
             _attacker = attacker;
             _defender = defender;
         }
 
-        private readonly Character _attacker;
-        private readonly Character _defender;
+        private readonly CharacterEntity _attacker;
+        private readonly CharacterEntity _defender;
     }
 }

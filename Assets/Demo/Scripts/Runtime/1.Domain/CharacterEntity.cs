@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Demo.Domain
 {
-    public class Character
+    public class CharacterEntity
     {
-        public Character(Health health)
+        public CharacterEntity(Health health)
         {
             _health = new(health);
         }
