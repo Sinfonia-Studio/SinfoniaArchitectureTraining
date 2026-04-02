@@ -1,33 +1,45 @@
-using Demo.Application;
 using Demo.Domain;
+using Demo.Application;
 
 namespace Demo.Adaptor
 {
     /// <summary>
     /// ユニット生成のプレゼンター。
-    /// Applicationの生成イベントをSignalへ変換する。
+    /// Applicationでのエンティティ生成時に、Viewを生成して初期化を行う。
+    /// 依存性の逆転（DIP）により、View層やComposition層への直接の参照を持たない。
     /// </summary>
     public class UnitSpawnPresenter
     {
-        public UnitSpawnPresenter(UnitFactory unitSpawner, IUnitSpawnSignal signal)
+        public UnitSpawnPresenter(
+            UnitFactory unitFactory, 
+            IUnitSpawner unitSpawner,
+            ICharacterInitializer characterInitializer)
         {
+            _unitFactory = unitFactory;
             _unitSpawner = unitSpawner;
-            _signal = signal;
-            _unitSpawner.OnCharacterSpawned += OnCharacterSpawned;
+            _characterInitializer = characterInitializer;
+            _unitFactory.OnCharacterSpawned += OnCharacterSpawned;
         }
 
-        private void OnCharacterSpawned(CharacterEntity[] characters)
+        /// <summary>
+        /// エンティティが生成された際のハンドラ。
+        /// その場でView生成を要求し、生成直後のコールバックで初期化を完了させる。
+        /// </summary>
+        /// <param name="character">生成されたキャラクターエンティティ</param>
+        private void OnCharacterSpawned(CharacterEntity character)
         {
-            string[] ids = new string[characters.Length];
-            for (int i = 0; i < characters.Length; i++)
+            // View生成を要求。生成された瞬間に初期化を呼ぶ。
+            _unitSpawner.SpawnCharacter(character.CharacterID.Value, (viewObject) =>
             {
-                ids[i] = characters[i].CharacterID.Value;
-            }
-
-            _signal.InvokeSpawnUnit(new UnitSpawnDTO(ids));
+                if (viewObject != null)
+                {
+                    _characterInitializer.Initialize(character, viewObject);
+                }
+            });
         }
 
-        private readonly UnitFactory _unitSpawner;
-        private readonly IUnitSpawnSignal _signal;
+        private readonly UnitFactory _unitFactory;
+        private readonly IUnitSpawner _unitSpawner;
+        private readonly ICharacterInitializer _characterInitializer;
     }
 }
