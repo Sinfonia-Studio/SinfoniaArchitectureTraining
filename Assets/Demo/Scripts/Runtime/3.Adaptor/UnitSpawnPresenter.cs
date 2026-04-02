@@ -1,45 +1,50 @@
 using Demo.Domain;
 using Demo.Application;
+using System;
 
 namespace Demo.Adaptor
 {
     /// <summary>
     /// ユニット生成のプレゼンター。
-    /// Applicationでのエンティティ生成時に、Viewを生成して初期化を行う。
-    /// 依存性の逆転（DIP）により、View層やComposition層への直接の参照を持たない。
+    /// Applicationでのエンティティ生成を受けて、Adaptorを作成しView層へ通知する。
     /// </summary>
-    public class UnitSpawnPresenter
+    public class UnitSpawnPresenter : IDisposable
     {
         public UnitSpawnPresenter(
             UnitFactory unitFactory, 
-            IUnitSpawner unitSpawner,
-            ICharacterInitializer characterInitializer)
+            ICharacterAdaptorFactory adaptorFactory,
+            ICharacterSpawnSignal spawnSignal)
         {
             _unitFactory = unitFactory;
-            _unitSpawner = unitSpawner;
-            _characterInitializer = characterInitializer;
+            _adaptorFactory = adaptorFactory;
+            _spawnSignal = spawnSignal;
             _unitFactory.OnCharacterSpawned += OnCharacterSpawned;
         }
 
         /// <summary>
         /// エンティティが生成された際のハンドラ。
-        /// その場でView生成を要求し、生成直後のコールバックで初期化を完了させる。
+        /// 論理的なAdaptor一式を作成し、View層へ通知する。
         /// </summary>
         /// <param name="character">生成されたキャラクターエンティティ</param>
         private void OnCharacterSpawned(CharacterEntity character)
         {
-            // View生成を要求。生成された瞬間に初期化を呼ぶ。
-            _unitSpawner.SpawnCharacter(character.CharacterID.Value, (viewObject) =>
-            {
-                if (viewObject != null)
-                {
-                    _characterInitializer.Initialize(character, viewObject);
-                }
-            });
+            // 1. 論理的なパーツ(Adaptor)を生成
+            CharacterAdaptor adaptor = _adaptorFactory.Create(character);
+            
+            // 2. View層へ通知
+            _spawnSignal.OnCharacterReady(character.CharacterID.Value, adaptor);
         }
 
         private readonly UnitFactory _unitFactory;
-        private readonly IUnitSpawner _unitSpawner;
-        private readonly ICharacterInitializer _characterInitializer;
+        private readonly ICharacterAdaptorFactory _adaptorFactory;
+        private readonly ICharacterSpawnSignal _spawnSignal;
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _unitFactory.OnCharacterSpawned -= OnCharacterSpawned;
+            _disposed = true;
+        }
     }
 }
