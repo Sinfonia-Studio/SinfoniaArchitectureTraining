@@ -2,10 +2,7 @@ namespace Demo.Domain
 {
     public readonly struct AttackPower
     {
-        public AttackPower(float value)
-        {
-            _value = value;
-        }
+        public AttackPower(float value) => _value = value;
 
         public float Value => _value;
 

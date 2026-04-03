@@ -4,10 +4,7 @@ namespace Demo.Domain
 {
     public readonly struct Health : IEquatable<Health>, IComparable<Health>
     {
-        public Health(float value)
-        {
-            _value = value;
-        }
+        public Health(float value) => _value = value;
 
         public float Value => _value;
 
