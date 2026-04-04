@@ -7,17 +7,21 @@ namespace Demo.View
     /// ユニット生成を表示するスポナーView。
     /// Adaptor層のICharacterSpawnSignalを実装し、キャラクターの論理的準備完了を受けてViewを生成する。
     /// </summary>
-    public class UnitSpawner : MonoBehaviour, ICharacterSpawnSignal
+    public class UnitSpawner : MonoBehaviour
     {
-        public void Bind(CharacterSpawner spawner)
+        public void Bind(CharacterSpawner spawner, CharacterSpawnSignal signal)
         {
             _spawner = spawner;
+            _signal = signal;
+
+            RegisterSignal(signal);
         }
 
         [SerializeField, Tooltip("ユニット生成時の設定")]
         private UnitSpawnerConfig _config;
 
         private CharacterSpawner _spawner;
+        private CharacterSpawnSignal _signal;
 
         /// <summary>
         /// ICharacterSpawnSignalの実装。
@@ -44,6 +48,28 @@ namespace Demo.View
             }
         }
 
+        private void OnDestroy()
+        {
+            UnregisterSignal(_signal);
+        }
+
+        private void RegisterSignal(CharacterSpawnSignal signal)
+        {
+            if (signal != null)
+            {
+                signal.OnSpawnRequested += OnCharacterReady;
+            }
+        }
+
+        private void UnregisterSignal(CharacterSpawnSignal signal)
+        {
+            if (signal != null)
+            {
+                signal.OnSpawnRequested -= OnCharacterReady;
+            }
+        }
+
+
         private void OnValidate()
         {
             Debug.Assert(_config != null, $"{nameof(UnitSpawnerConfig)} is null");
@@ -54,7 +80,7 @@ namespace Demo.View
             if (_config != null)
             {
                 Gizmos.color = Color.yellow;
-                Gizmos.DrawWireCube(transform.position, Vector3.one * _config.SpawnRadius);
+                Gizmos.DrawWireSphere(transform.position, _config.SpawnRadius);
             }
         }
     }
