@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Demo-View::Demo.View.CharacterDataBase
   _characterDataBase:
   - _id: Fighter
-    _view: {fileID: 0}
+    _view: {fileID: 3369581790544887546, guid: 843a939b9083b784f97d32f6cdbcc83e, type: 3}
   - _id: Archer
-    _view: {fileID: 0}
+    _view: {fileID: 7322972868691110290, guid: e7c6e86280c999445952f8aa454c9bfc, type: 3}
   - _id: Warrior
-    _view: {fileID: 0}
+    _view: {fileID: 6017202113859384456, guid: 92572aa718f26c14baf5711f7874d1fb, type: 3}
