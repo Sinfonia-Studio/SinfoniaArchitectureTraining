@@ -15,5 +15,5 @@ MonoBehaviour:
   _id: Archer Unit
   _characterAsset:
   - {fileID: 11400000, guid: aa534caa454d0b6439105719652a2755, type: 2}
-  - {fileID: 11400000, guid: aa534caa454d0b6439105719652a2755, type: 2}
-  - {fileID: 11400000, guid: aa534caa454d0b6439105719652a2755, type: 2}
+  - {fileID: 11400000, guid: cda092e38ad8a2142867b9f33fc35638, type: 2}
+  - {fileID: 11400000, guid: 248aabbdd08eac640a41bf872ff75d95, type: 2}
