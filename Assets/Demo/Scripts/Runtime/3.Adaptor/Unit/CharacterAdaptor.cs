@@ -4,7 +4,7 @@ namespace Demo.Adaptor
     /// キャラクターの論理的な機能をまとめたコンテナ。
     /// View層はこのオブジェクトを受け取って自身をバインドする。
     /// </summary>
-    public class CharacterAdaptor
+    public readonly struct CharacterAdaptor
     {
         public CharacterAdaptor(ICharacterViewModel viewModel, CharacterController controller)
         {

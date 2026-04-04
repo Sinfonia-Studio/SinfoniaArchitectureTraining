@@ -1,5 +1,3 @@
-using Demo.Domain;
-
 namespace Demo.Adaptor
 {
     public readonly ref struct CharacterDTO
