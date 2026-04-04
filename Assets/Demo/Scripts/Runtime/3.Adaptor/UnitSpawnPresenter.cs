@@ -1,5 +1,5 @@
-using Demo.Domain;
 using Demo.Application;
+using Demo.Domain;
 using System;
 
 namespace Demo.Adaptor
@@ -11,8 +11,8 @@ namespace Demo.Adaptor
     public class UnitSpawnPresenter : IDisposable
     {
         public UnitSpawnPresenter(
-            UnitFactory unitFactory, 
-            ICharacterAdaptorFactory adaptorFactory,
+            UnitFactory unitFactory,
+            ICharacterAdaptorDriver adaptorFactory,
             ICharacterSpawnSignal spawnSignal)
         {
             _unitFactory = unitFactory;
@@ -21,6 +21,18 @@ namespace Demo.Adaptor
             _unitFactory.OnCharacterSpawned += OnCharacterSpawned;
         }
 
+        public void Dispose()
+        {
+            if (_disposed) { return; }
+            _unitFactory.OnCharacterSpawned -= OnCharacterSpawned;
+            _disposed = true;
+        }
+
+        private readonly UnitFactory _unitFactory;
+        private readonly ICharacterAdaptorDriver _adaptorFactory;
+        private readonly ICharacterSpawnSignal _spawnSignal;
+        private bool _disposed;
+
         /// <summary>
         /// エンティティが生成された際のハンドラ。
         /// 論理的なAdaptor一式を作成し、View層へ通知する。
@@ -28,23 +40,8 @@ namespace Demo.Adaptor
         /// <param name="character">生成されたキャラクターエンティティ</param>
         private void OnCharacterSpawned(CharacterEntity character)
         {
-            // 1. 論理的なパーツ(Adaptor)を生成
             CharacterAdaptor adaptor = _adaptorFactory.Create(character);
-            
-            // 2. View層へ通知
             _spawnSignal.OnCharacterReady(character.CharacterID.Value, adaptor);
-        }
-
-        private readonly UnitFactory _unitFactory;
-        private readonly ICharacterAdaptorFactory _adaptorFactory;
-        private readonly ICharacterSpawnSignal _spawnSignal;
-        private bool _disposed;
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-            _unitFactory.OnCharacterSpawned -= OnCharacterSpawned;
-            _disposed = true;
         }
     }
 }

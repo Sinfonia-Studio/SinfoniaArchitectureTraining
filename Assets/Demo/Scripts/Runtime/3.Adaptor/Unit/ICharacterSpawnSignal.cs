@@ -10,6 +10,6 @@ namespace Demo.Adaptor
         /// </summary>
         /// <param name="characterID">キャラクターID</param>
         /// <param name="adaptor">生成されたAdaptor</param>
-        void OnCharacterReady(string characterID, CharacterAdaptor adaptor);
+        public void OnCharacterReady(string characterID, CharacterAdaptor adaptor);
     }
 }
